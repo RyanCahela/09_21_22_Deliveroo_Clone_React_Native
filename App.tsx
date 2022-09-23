@@ -1,19 +1,19 @@
 import React from "react";
 import { StatusBar } from "expo-status-bar";
-import { Text, View, ScrollView } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import HomeScreen from "./screens/HomeScreen";
+import DetailsScreen from "./screens/DetailsScreen";
 
-import "./styles";
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <View className="flex-1 bg-orange-300 items-center justify-center">
-    <ScrollView className="bg-green-300 pt-24" horizontal={true}>
-      <Text className="">Open up App.js to start working on your app!</Text>
-      <Text className="">Open up App.js to start working on your app!</Text>
-      <Text>Open up App.js to start working on your app!</Text>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </ScrollView>
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Details" component={DetailsScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
