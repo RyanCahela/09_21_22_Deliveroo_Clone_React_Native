@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from "react";
+import React, { useLayoutEffect, useEffect, useState } from "react";
 import {
   Text,
   TextInput,
@@ -18,15 +18,36 @@ import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
 import Categories from "../components/Categories";
 import FeaturedRow from "../components/FeaturedRow";
+import sanityClient from "../sanity";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
+  const [featuredCategories, setFeaturedCategories] = useState([]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
   }, []);
+
+  useEffect(() => {
+    sanityClient
+      .fetch(
+        `*[_type == "featured"] {
+      ...,
+      restaurants[]->{
+        ...,
+        dishes[]->
+      }
+    }`
+      )
+      .then((data) => {
+        setFeaturedCategories(data);
+        console.log("data", data);
+      });
+  }, []);
+
+  console.log("featured Categories", featuredCategories);
 
   return (
     <SafeAreaView className="bg-white">
