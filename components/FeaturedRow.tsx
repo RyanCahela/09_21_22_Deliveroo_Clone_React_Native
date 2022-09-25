@@ -1,10 +1,40 @@
 import { View, Text, ScrollView } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ArrowRightIcon } from "react-native-heroicons/outline";
 import FeaturedCard from "./RestaurantCard";
 import RestaurantCard from "./RestaurantCard";
+import sanityClient from "../sanity";
+import urlFor from "../sanity";
+import restaurant from "../sanity/schemas/restaurant";
 
-const FeaturedRow = ({ title, description, featuredCategory }) => {
+const FeaturedRow = ({
+  title,
+  description,
+  featuredCategory,
+  id,
+  restaurants,
+}) => {
+  // useEffect(() => {
+  //   sanityClient
+  //     .fetch(
+  //       `
+  //       *[_type == "featured" && _id == "2497876c-f345-41a5-9692-dcea80d45601"] {
+  //         ...,
+  //         restaurants[]->{
+  //           ...,
+  //           dishes[]->,
+  //           type-> {
+  //             name
+  //           }
+  //         }
+  //       }
+  //   `,
+  //       { id: id }
+  //     )
+  //     .then((data) => setRestaurants(data))
+  //     .catch((err) => new Error(err));
+  // }, []);
+  console.log("restaurants", restaurants);
   return (
     <View className="mt-4">
       <View className="flex-row mt-4">
@@ -24,55 +54,20 @@ const FeaturedRow = ({ title, description, featuredCategory }) => {
         showsHorizontalScrollIndicator={false}
         className="pt-4"
       >
-        <RestaurantCard
-          title="Restaurant Title"
-          id={123}
-          imgUrl="https://picsum.photos/400/300"
-          rating="4.0"
-          genre="Japanese"
-          address="123 Main St"
-          short_description="This is a short description"
-          dishes={[]}
-          longitude={20}
-          latitued={13}
-        />
-
-        <RestaurantCard
-          title="Restaurant Title"
-          id={123}
-          imgUrl="https://picsum.photos/400/300"
-          rating="4.0"
-          genre="Japanese"
-          address="123 Main St"
-          short_description="This is a short description"
-          dishes={[]}
-          longitude={20}
-          latitued={13}
-        />
-        <RestaurantCard
-          title="Restaurant Title"
-          id={123}
-          imgUrl="https://picsum.photos/400/300"
-          rating="4.0"
-          genre="Japanese"
-          address="123 Main St"
-          short_description="This is a short description"
-          dishes={[]}
-          longitude={20}
-          latitued={13}
-        />
-        <RestaurantCard
-          title="Restaurant Title"
-          id={123}
-          imgUrl="https://picsum.photos/400/300"
-          rating="4.0"
-          genre="Japanese"
-          address="123 Main St"
-          short_description="This is a short description"
-          dishes={[]}
-          longitude={20}
-          latitued={13}
-        />
+        {restaurants.map((restaurant) => (
+          <RestaurantCard
+            title={restaurant.name}
+            id={restaurant._id}
+            imgUrl={restaurant.image}
+            rating="4.0"
+            genre={restaurant.type.name}
+            address={restaurant.address}
+            short_description={restaurant.short_description}
+            dishes={restaurant.dishes}
+            longitude={restaurant.longitude}
+            latitued={restaurant.latitude}
+          />
+        ))}
       </ScrollView>
     </View>
   );
