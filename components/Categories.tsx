@@ -1,8 +1,26 @@
 import { ScrollView, Text } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CategoryCard from "./CategoryCard";
+import sanityClient, { urlFor } from "../sanity";
 
 const Categories = () => {
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    sanityClient
+      .fetch(
+        `
+        *[_type == "category"] {
+          _id,
+          image,
+          name,
+        }`
+      )
+      .then((data) => setCategories(data));
+  }, []);
+
+  console.log("categories", categories);
+
   return (
     <ScrollView
       horizontal={true}
@@ -13,21 +31,13 @@ const Categories = () => {
       }}
     >
       {/* CategoryCard */}
-      <CategoryCard imgUrl="https://picsum.photos/200" title="Card" />
-      <CategoryCard imgUrl="https://picsum.photos/200" title="Card" />
-      <CategoryCard imgUrl="https://picsum.photos/200" title="Card" />
-      <CategoryCard imgUrl="https://picsum.photos/200" title="Card" />
-      <CategoryCard imgUrl="https://picsum.photos/200" title="Card" />
-      <CategoryCard imgUrl="https://picsum.photos/200" title="Card" />
-      <CategoryCard imgUrl="https://picsum.photos/200" title="Card" />
-      <CategoryCard imgUrl="https://picsum.photos/200" title="Card" />
-      <CategoryCard imgUrl="https://picsum.photos/200" title="Card" />
-      <CategoryCard imgUrl="https://picsum.photos/200" title="Card" />
-      <CategoryCard imgUrl="https://picsum.photos/200" title="Card" />
-      <CategoryCard imgUrl="https://picsum.photos/200" title="Card" />
-      <CategoryCard imgUrl="https://picsum.photos/200" title="Card" />
-      <CategoryCard imgUrl="https://picsum.photos/200" title="Card" />
-      <CategoryCard imgUrl="https://picsum.photos/200" title="Card" />
+      {categories?.map((category) => (
+        <CategoryCard
+          key={category._id}
+          imgUrl={category.image}
+          title={category.name}
+        />
+      ))}
     </ScrollView>
   );
 };

@@ -7,33 +7,28 @@ import sanityClient from "../sanity";
 import urlFor from "../sanity";
 import restaurant from "../sanity/schemas/restaurant";
 
-const FeaturedRow = ({
-  title,
-  description,
-  featuredCategory,
-  id,
-  restaurants,
-}) => {
-  // useEffect(() => {
-  //   sanityClient
-  //     .fetch(
-  //       `
-  //       *[_type == "featured" && _id == "2497876c-f345-41a5-9692-dcea80d45601"] {
-  //         ...,
-  //         restaurants[]->{
-  //           ...,
-  //           dishes[]->,
-  //           type-> {
-  //             name
-  //           }
-  //         }
-  //       }
-  //   `,
-  //       { id: id }
-  //     )
-  //     .then((data) => setRestaurants(data))
-  //     .catch((err) => new Error(err));
-  // }, []);
+const FeaturedRow = ({ title, description, featuredCategory, id }) => {
+  const [restaurants, setRestaurants] = useState([]);
+  useEffect(() => {
+    sanityClient
+      .fetch(
+        `
+        *[_type == "featured" && _id == $id] {
+          ...,
+          restaurants[]->{
+            ...,
+            dishes[]->,
+            type-> {
+              name
+            }
+          },
+        }[0]
+        `,
+        { id: id }
+      )
+      .then((data) => setRestaurants(data.restaurants));
+  }, [id]);
+
   console.log("restaurants", restaurants);
   return (
     <View className="mt-4">
@@ -56,6 +51,7 @@ const FeaturedRow = ({
       >
         {restaurants.map((restaurant) => (
           <RestaurantCard
+            key={restaurant._id}
             title={restaurant.name}
             id={restaurant._id}
             imgUrl={restaurant.image}
