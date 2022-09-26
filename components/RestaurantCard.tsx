@@ -16,6 +16,8 @@ const RestaurantCard = ({
   longitude,
   latitued,
 }) => {
+  console.log(`imgUrl of ${title}`, imgUrl);
+
   return (
     <TouchableOpacity className="mr-3 bg-white shadow w-64">
       <Image source={{ uri: urlFor(imgUrl).url() }} className="w-64 h-36" />

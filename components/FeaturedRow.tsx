@@ -29,7 +29,7 @@ const FeaturedRow = ({ title, description, featuredCategory, id }) => {
       .then((data) => setRestaurants(data.restaurants));
   }, [id]);
 
-  console.log("restaurants", restaurants);
+  console.log("restaurants in Featured Row", restaurants);
   return (
     <View className="mt-4">
       <View className="flex-row mt-4">
@@ -55,7 +55,7 @@ const FeaturedRow = ({ title, description, featuredCategory, id }) => {
             title={restaurant.name}
             id={restaurant._id}
             imgUrl={restaurant.image}
-            rating="4.0"
+            rating={restaurant.rating}
             genre={restaurant.type.name}
             address={restaurant.address}
             short_description={restaurant.short_description}
