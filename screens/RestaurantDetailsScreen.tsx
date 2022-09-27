@@ -23,23 +23,19 @@ import {
 const DetailsScreen = () => {
   const navigation = useNavigation();
   const {
-    title,
-    id,
-    imgUrl,
-    rating,
-    genre,
-    address,
-    short_description,
-    dishes,
-    longitude,
-    latitued,
-  } = useRoute().params;
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
-    });
-  }, []);
+    params: {
+      title,
+      id,
+      imgUrl,
+      rating,
+      genre,
+      address,
+      short_description,
+      dishes,
+      longitude,
+      latitued,
+    },
+  } = useRoute();
 
   return (
     <View className="flex-1 bg-white">
@@ -56,7 +52,11 @@ const DetailsScreen = () => {
             className="absolute top-20 left-8 scale-150"
             onPress={() => navigation.goBack()}
           >
-            <ArrowLeftCircleIcon className="text-white bg-black rounded-full" />
+            <ArrowLeftCircleIcon
+              className="text-white bg-black rounded-full"
+              stroke="#333"
+              fill="#FFF"
+            />
           </TouchableOpacity>
         </View>
         <View className="px-6">
@@ -83,9 +83,10 @@ const DetailsScreen = () => {
             <ChevronRightIcon className="ml-auto" color="#00CCBB" />
           </TouchableOpacity>
           {/* Dishes */}
-          <View className="space-y-4">
+          <View className="">
             {dishes.map((dish) => (
               <TouchableOpacity
+                className="py-4"
                 key={dish._id}
                 onPress={() =>
                   navigation.navigate("DishDetails", {
