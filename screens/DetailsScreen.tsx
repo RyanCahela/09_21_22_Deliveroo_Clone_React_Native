@@ -1,8 +1,17 @@
 import React, { useLayoutEffect } from "react";
-import { Text, View, ScrollView, Button, SafeAreaView } from "react-native";
+import { StarIcon } from "react-native-heroicons/solid";
+import {
+  Text,
+  View,
+  ScrollView,
+  Button,
+  SafeAreaView,
+  Image,
+} from "react-native";
 import { StatusBar } from "expo-status-bar";
 import "../styles/";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { urlFor } from "../sanity";
 
 const DetailsScreen = () => {
   const navigation = useNavigation();
@@ -26,16 +35,33 @@ const DetailsScreen = () => {
   }, []);
 
   return (
-    <SafeAreaView className="flex-1 bg-red-300 items-center justify-center">
-      <ScrollView className="bg-purple-800 text-white">
-        <Text className="text-white text-3xl">Details Screen</Text>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>{title}</Text>
-        <Text>{address}</Text>
-        <Button title="Go Home" onPress={() => navigation.navigate("Home")} />
-        <StatusBar style="auto" />
+    <View className="flex-1 bg-white">
+      <ScrollView className="">
+        <Image source={{ uri: urlFor(imgUrl).url() }} className="w-full h-48" />
+        <View className="px-6 pt-8 space-y-4">
+          <Text className="text-3xl font-bold">{title}</Text>
+          <View className="flex-row items-center text-green-500">
+            <StarIcon className="text-inherit" />
+            <Text className="text-inherit ml-2 text-xl">{rating}</Text>
+          </View>
+          <Text className="">{address}</Text>
+          <Text>{short_description}</Text>
+          <Button title="Go Home" onPress={() => navigation.navigate("Home")} />
+          <StatusBar style="auto" />
+        </View>
+        {dishes.map((dish) => (
+          <View key={dish._id}>
+            <Text>{dish.name}</Text>
+            <Image
+              source={{ uri: urlFor(dish.image).width(200).url() }}
+              className="w-24 h-24"
+            />
+            <Text>{dish.short_description}</Text>
+            <Text>${dish.price}</Text>
+          </View>
+        ))}
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 

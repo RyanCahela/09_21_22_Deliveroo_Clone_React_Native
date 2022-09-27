@@ -5,38 +5,26 @@ import { StarIcon } from "react-native-heroicons/solid";
 import { MapPinIcon } from "react-native-heroicons/outline";
 import { urlFor } from "../sanity";
 
-const RestaurantCard = ({
-  title,
-  id,
-  imgUrl,
-  rating,
-  genre,
-  address,
-  short_description,
-  dishes,
-  longitude,
-  latitued,
-}) => {
+const RestaurantCard = (props) => {
   console.log(`imgUrl of ${title}`, imgUrl);
   const navigation = useNavigation();
+  const {
+    title,
+    id,
+    imgUrl,
+    rating,
+    genre,
+    address,
+    short_description,
+    dishes,
+    longitude,
+    latitued,
+  } = props;
 
   return (
     <TouchableOpacity
       className="mr-3 bg-white shadow w-64"
-      onPress={() =>
-        navigation.navigate("Details", {
-          title,
-          id,
-          imgUrl,
-          rating,
-          genre,
-          address,
-          short_description,
-          dishes,
-          longitude,
-          latitued,
-        })
-      }
+      onPress={() => navigation.navigate("Details", { ...props })}
     >
       <Image source={{ uri: urlFor(imgUrl).url() }} className="w-64 h-36" />
       <View className="px-3 pb-4">
