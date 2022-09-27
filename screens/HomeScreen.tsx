@@ -45,8 +45,8 @@ const HomeScreen = () => {
       )
       .then((data) => {
         setFeaturedCategories(data);
-        console.log("data", data);
-      });
+      })
+      .catch((err) => new Error(err));
   }, []);
 
   return (
@@ -58,7 +58,6 @@ const HomeScreen = () => {
             source={{
               uri: "https://links.papareact.com/wru",
             }}
-            className="h-7 w-7 p-4 rounded-full bg-gray-300"
           />
         </View>
         <View className="flex-1">
@@ -68,7 +67,6 @@ const HomeScreen = () => {
             <ChevronDownIcon size={20} color="#00CCBB" />
           </View>
         </View>
-        <UserIcon size={35} color="#00CCBB" />
       </View>
       {/* Search */}
       <View className="flex-row mx-4 items-center space-x-2 pb-2">
@@ -81,7 +79,6 @@ const HomeScreen = () => {
         </View>
         <AdjustmentsHorizontalIcon size={35} color="#00CCBB" />
       </View>
-
       {/* Body */}
       <ScrollView className="mb-32">
         {/* Categories */}

@@ -19,8 +19,6 @@ const Categories = () => {
       .then((data) => setCategories(data));
   }, []);
 
-  console.log("categories", categories);
-
   return (
     <ScrollView
       horizontal={true}

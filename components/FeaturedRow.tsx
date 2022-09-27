@@ -29,10 +29,9 @@ const FeaturedRow = ({ title, description, featuredCategory, id }) => {
       .then((data) => setRestaurants(data.restaurants));
   }, [id]);
 
-  console.log("restaurants in Featured Row", restaurants);
   return (
     <View className="mt-4">
-      <View className="flex-row mt-4">
+      <View className="flex-row mt-4 px-4">
         <View>
           <Text className="font-bold text-gray-800 text-lg">{title}</Text>
           <Text>{description}</Text>
@@ -44,7 +43,7 @@ const FeaturedRow = ({ title, description, featuredCategory, id }) => {
       <ScrollView
         horizontal={true}
         contentContainerStyle={{
-          paddingHorizontal: 15,
+          paddingHorizontal: 16,
         }}
         showsHorizontalScrollIndicator={false}
         className="pt-4"

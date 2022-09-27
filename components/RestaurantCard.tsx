@@ -6,7 +6,6 @@ import { MapPinIcon } from "react-native-heroicons/outline";
 import { urlFor } from "../sanity";
 
 const RestaurantCard = (props) => {
-  console.log(`imgUrl of ${title}`, imgUrl);
   const navigation = useNavigation();
   const {
     title,
@@ -24,14 +23,14 @@ const RestaurantCard = (props) => {
   return (
     <TouchableOpacity
       className="mr-3 bg-white shadow w-64"
-      onPress={() => navigation.navigate("Details", { ...props })}
+      onPress={() => navigation.navigate("RestaurantDetails", { ...props })}
     >
       <Image source={{ uri: urlFor(imgUrl).url() }} className="w-64 h-36" />
       <View className="px-3 pb-4">
         <Text className="font-bold pt-2 text-lg">{title}</Text>
         <View className="flex-row items-center space-x-1">
           <StarIcon color="green" opacity={0.5} size={22} />
-          <Text className="text-green-500">{rating}</Text>
+          <Text className="text-green-500">{rating.toFixed(1)}</Text>
           <Text className="text-xs text-gray-500">· {genre}</Text>
         </View>
 
