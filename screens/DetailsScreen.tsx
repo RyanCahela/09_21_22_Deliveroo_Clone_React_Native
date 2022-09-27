@@ -1,5 +1,5 @@
 import React, { useLayoutEffect } from "react";
-import { StarIcon } from "react-native-heroicons/solid";
+import { StarIcon, ArrowLeftCircleIcon } from "react-native-heroicons/solid";
 import {
   Text,
   View,
@@ -7,6 +7,7 @@ import {
   Button,
   SafeAreaView,
   Image,
+  TouchableOpacity,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import "../styles/";
@@ -36,8 +37,19 @@ const DetailsScreen = () => {
 
   return (
     <View className="flex-1 bg-white">
-      <ScrollView className="">
-        <Image source={{ uri: urlFor(imgUrl).url() }} className="w-full h-48" />
+      <ScrollView className="relative">
+        <View>
+          <Image
+            source={{ uri: urlFor(imgUrl).url() }}
+            className="w-full h-48"
+          />
+        </View>
+        <TouchableOpacity
+          className="absolute top-20 left-8"
+          onPress={() => navigation.goBack()}
+        >
+          <ArrowLeftCircleIcon className="text-white bg-black rounded-full" />
+        </TouchableOpacity>
         <View className="px-6 pt-8 space-y-4">
           <Text className="text-3xl font-bold">{title}</Text>
           <View className="flex-row items-center text-green-500">
