@@ -8,14 +8,22 @@ import {
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { urlFor } from "../sanity";
 import dish from "../sanity/schemas/dish";
+import { useSelector, useDispatch } from "react-redux";
+import { addToBasket, selectBasketItems } from "../features/basketSlice";
 
 const DishDetailsScreen = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const basket = useSelector(selectBasketItems);
   const {
     params: { image, name, price, short_description },
   } = useRoute();
 
   const [quantity, setQuantity] = useState(0);
+
+  const addItemToBasket = (data) => {
+    dispatch(addToBasket({ id, name, short_description, price, image }));
+  };
 
   return (
     <View className="space-y-8">
@@ -44,26 +52,15 @@ const DishDetailsScreen = () => {
           <Text>{price}</Text>
         </View>
         <View className="flex-row space-x-4 items-center">
-          <TouchableOpacity
-            onPress={() =>
-              setQuantity((prevQuantity) => {
-                //guards against negative quantities
-                if (prevQuantity <= 0) {
-                  return 0;
-                }
-
-                return --prevQuantity;
-              })
-            }
-          >
+          <TouchableOpacity onPress={() => {}}>
             <MinusCircleIcon color="#00CCBB" size={50} />
           </TouchableOpacity>
-          <Text className="text-3xl">{quantity}</Text>
+          <Text className="text-3xl">
+            {basket.filter((item) => item.name === name).length}
+          </Text>
           <TouchableOpacity
             onPress={() =>
-              setQuantity((prevQuantity) => {
-                return ++prevQuantity;
-              })
+              addItemToBasket({ id, price, name, short_description })
             }
           >
             <PlusCircleIcon color="#00CCBB" size={50} />
