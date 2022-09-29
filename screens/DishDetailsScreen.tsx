@@ -9,20 +9,28 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { urlFor } from "../sanity";
 import dish from "../sanity/schemas/dish";
 import { useSelector, useDispatch } from "react-redux";
-import { addToBasket, selectBasketItems } from "../features/basketSlice";
+import {
+  addToBasket,
+  selectBasketItemsWithId,
+  removeFromBasket,
+} from "../features/basketSlice";
 
 const DishDetailsScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const basket = useSelector(selectBasketItems);
   const {
-    params: { image, name, price, short_description },
+    params: { id, image, name, price, short_description },
   } = useRoute();
+  const basket = useSelector((state) => selectBasketItemsWithId(state, id));
 
   const [quantity, setQuantity] = useState(0);
 
-  const addItemToBasket = (data) => {
-    dispatch(addToBasket({ id, name, short_description, price, image }));
+  const addItemToBasket = (itemInfo) => {
+    dispatch(addToBasket(itemInfo));
+  };
+
+  const removeItemFromBasket = (itemInfo) => {
+    dispatch(removeFromBasket(itemInfo));
   };
 
   return (
@@ -52,7 +60,7 @@ const DishDetailsScreen = () => {
           <Text>{price}</Text>
         </View>
         <View className="flex-row space-x-4 items-center">
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={() => removeItemFromBasket({ id })}>
             <MinusCircleIcon color="#00CCBB" size={50} />
           </TouchableOpacity>
           <Text className="text-3xl">
