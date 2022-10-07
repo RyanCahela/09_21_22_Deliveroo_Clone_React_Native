@@ -86,7 +86,7 @@ const DetailsScreen = () => {
           {/* Dishes */}
           <View className="">
             {dishes.map((dish) => (
-              <DishRow dish={dish} />
+              <DishRow dish={dish} key={dish._id} />
             ))}
           </View>
         </View>

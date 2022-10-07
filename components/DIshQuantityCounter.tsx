@@ -7,12 +7,13 @@ import {
   selectBasketItemsWithId,
 } from "../features/basketSlice";
 import { useSelector, useDispatch } from "react-redux";
-import dish from "../sanity/schemas/dish";
 
-const DishQuantityCounter = ({ dishId }) => {
+const DishQuantityCounter = ({ dish }) => {
   const [quantity, setQuantity] = useState(0);
   const dispatch = useDispatch();
-  const items = useSelector((state) => selectBasketItemsWithId(state, dishId));
+  const items = useSelector((state) =>
+    selectBasketItemsWithId(state, dish._id)
+  );
 
   const increaseQuantity = () => {
     dispatch(addToBasket(dish));
